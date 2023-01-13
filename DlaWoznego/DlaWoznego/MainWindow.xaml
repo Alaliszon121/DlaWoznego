@@ -1,0 +1,76 @@
+﻿<Window x:Class="DlaWoznego.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DlaWoznego"
+        mc:Ignorable="d"
+        Title="Karteczkowa aplikacja dla Woźnego" Height="500" Width="1200">
+    <Window.Resources>
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel LastChildFill="True">
+        <Grid x:Name="gridProdukt" Margin="5" DataContext="{Binding SelectedItem, ElementName=lstProdukty}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100px"/>
+                <ColumnDefinition Width="150px"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="Karteczka:" Grid.Row="0" Grid.Column="0"/>
+            <Label Content="Pokój: " Grid.Row="1" Grid.Column="0" Margin="5"/>
+            <TextBox x:Name="pokoj_add" Text="{Binding Pokoj}" Grid.Column="1" Grid.Row="1" Margin="5,10,5,10"/>
+            <Label Content="Zadanie: " Grid.Row="2" Grid.Column="0" Margin="5"/>
+            <TextBox x:Name="nazwa_add" Grid.Row="2" FontSize="18" Grid.Column="1" Margin="5" Text="{Binding Nazwa}"/>
+
+            <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="btnPotwierdz" Grid.Row="0" Grid.ColumnSpan="3" Margin="4" MinWidth="120" HorizontalAlignment="Center" Content="Potwierdź" Click="BtnPotwierdz_Click"/>
+
+            </Grid>
+        </Grid>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="Filtruj wg zawartości zadania:" Grid.Row="0" Grid.Column="0" Margin="5"/>
+            <TextBox x:Name="txtFilter" Grid.Row="0" Grid.Column="1" Margin="5" TextChanged="TxtFilter_TextChanged"/>
+
+            <ListView x:Name="lstProdukty" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Pokój" DisplayMemberBinding="{Binding Pokoj}" />
+                            <GridViewColumn Header="Zadanie" DisplayMemberBinding="{Binding Nazwa}"/>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Button x:Name="btnDodaj" Content="Dodaj" Grid.Column="0" Grid.Row="2" Padding="60 5" Margin="5" Click="BtnDodaj_Click"/>
+            <Button x:Name="removeBtn2" Content="Usuń zaznaczone" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Padding="50 5" Margin="5" Click="RemoveBtn2_Click"/>
+        </Grid>
+    </DockPanel>
+</Window>
