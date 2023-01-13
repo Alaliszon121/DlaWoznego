@@ -40,7 +40,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button x:Name="btnPotwierdz" Grid.Row="0" Grid.ColumnSpan="3" Margin="4" MinWidth="120" HorizontalAlignment="Center" Content="Potwierdź" Click="BtnPotwierdz_Click"/>
+                <Button x:Name="btnPotwierdz" Grid.Row="0" Grid.ColumnSpan="3" Margin="4" MinWidth="120" HorizontalAlignment="Center" Content="Potwierdź zmianę" Click="BtnPotwierdz_Click"/>
 
             </Grid>
         </Grid>
