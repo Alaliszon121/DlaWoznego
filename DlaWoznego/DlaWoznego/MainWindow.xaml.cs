@@ -34,6 +34,8 @@ namespace DlaWoznego
             widok.SortDescriptions.Add(new SortDescription("Nazwa", ListSortDirection.Ascending));
 
             widok.Filter = FiltrUzytkownika;
+
+            this.lstProdukty.LostFocus += (s, e) => this.lstProdukty.SelectedItems.Clear();
         }
         private bool FiltrUzytkownika(object item)
         {
@@ -64,7 +66,17 @@ namespace DlaWoznego
                 }
             }
         }
-
+        /*
+         *  private async void notesCollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
+            {
+                if (e.CurrentSelection.Count != 0)
+                {
+                    var note = (Models.Note)e.CurrentSelection[0];
+                    await Shell.Current.GoToAsync($"{nameof(NotePage)}?{nameof(NotePage.ItemId)}={note.Filename}");
+                    notesCollection.SelectedItem = null;
+                }
+            }
+         * */
         private void BtnDodaj_Click(object sender, RoutedEventArgs e)
         {
             string[] pokoje = { "Lobby", "Biuro 1", "Biuro 2", "Serwerownia 1", "Serwerownia 2", "Kuchnia", "Łazienka", "Sala Konferencyjna", "Magazyn", "Moja kanciapa" };
@@ -80,17 +92,30 @@ namespace DlaWoznego
             {
                 NowyProdukt = new Produkt(pokoj_add.Text, nazwa_add.Text);
                 ListaProduktow.Add(NowyProdukt);
+                pokoj_add.Text = "";
+                nazwa_add.Text = "";
             }
             else
             {
-                MessageBox.Show("Wprowadź poprawną nazwę pokoju!");
+                MessageBox.Show("Wprowadź poprawną nazwę pokoju!\nPoprawne nazwy: Lobby, Biuro 1, Biuro 2, Serwerownia 1, Serwerownia 2, Kuchnia, Łazienka, Sala Konferencyjna, Magazyn, Moja kanciapa");
             }
         }
 
         private void BtnPotwierdz_Click(object sender, RoutedEventArgs e)
         {
-            //if (czyNowyProdukt) { ListaProduktow.Add(nowyProdukt); }
-            // this.DialogResult = true;
+            //if (czyNowyProdukt) 
+            //{ 
+            //    ListaProduktow.Add(nowyProdukt); 
+            //}
+            //this.DialogResult = true;
+        }
+
+        private void BtnUnselect_Click(object sender, RoutedEventArgs e)
+        {
+            lstProdukty.SelectedItems.Clear();
+
+            pokoj_add.Text = "";
+            nazwa_add.Text = "";
         }
     }
 }

@@ -29,7 +29,7 @@
             <Label Content="Pokój: " Grid.Row="1" Grid.Column="0" Margin="5"/>
             <TextBox x:Name="pokoj_add" Text="{Binding Pokoj}" Grid.Column="1" Grid.Row="1" Margin="5,10,5,10"/>
             <Label Content="Zadanie: " Grid.Row="2" Grid.Column="0" Margin="5"/>
-            <TextBox x:Name="nazwa_add" Grid.Row="2" FontSize="18" Grid.Column="1" Margin="5" Text="{Binding Nazwa}"/>
+            <TextBox x:Name="nazwa_add" Grid.Row="2" FontSize="16" Grid.Column="1" Margin="5" Text="{Binding Nazwa}" TextWrapping="Wrap"/>
 
             <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
                 <Grid.RowDefinitions>
@@ -63,14 +63,21 @@
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
-                            <GridViewColumn Header="Pokój" DisplayMemberBinding="{Binding Pokoj}" />
-                            <GridViewColumn Header="Zadanie" DisplayMemberBinding="{Binding Nazwa}"/>
+                            <GridViewColumn Header="Pokój" DisplayMemberBinding="{Binding Pokoj}" Width="150px"/>
+                            <GridViewColumn Header="Zadanie">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Nazwa}" TextWrapping="Wrap" Width="760px"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
             </ListView>
             <Button x:Name="btnDodaj" Content="Dodaj" Grid.Column="0" Grid.Row="2" Padding="60 5" Margin="5" Click="BtnDodaj_Click"/>
             <Button x:Name="removeBtn2" Content="Usuń zaznaczone" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" Padding="50 5" Margin="5" Click="RemoveBtn2_Click"/>
+            <Button x:Name="btnUnselect" Content="Odznacz zaznaczone" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Center" Padding="50 5" Margin="5" Click="BtnUnselect_Click"/>
         </Grid>
     </DockPanel>
 </Window>
