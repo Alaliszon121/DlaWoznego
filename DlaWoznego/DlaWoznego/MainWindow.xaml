@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DlaWoznego"
         mc:Ignorable="d"
-        Title="Karteczkowa aplikacja dla Woźnego" Height="500" Width="1200">
+        Title="Karteczkowa aplikacja dla Woźnego" Height="600" Width="1400">
     <Window.Resources>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -13,7 +13,7 @@
     </Window.Resources>
 
     <DockPanel LastChildFill="True">
-        <Grid x:Name="gridProdukt" Margin="5" DataContext="{Binding SelectedItem, ElementName=lstProdukty}">
+        <Grid x:Name="gridProdukt" Margin="5" DataContext="{Binding SelectedItem, ElementName=lstProdukty}" Width="450px">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -21,15 +21,42 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100px"/>
+                <ColumnDefinition Width="150px"/>
+                <ColumnDefinition Width="150px"/>
                 <ColumnDefinition Width="150px"/>
             </Grid.ColumnDefinitions>
 
             <Label Content="Karteczka:" Grid.Row="0" Grid.Column="0"/>
-            <Label Content="Pokój: " Grid.Row="1" Grid.Column="0" Margin="5"/>
-            <TextBox x:Name="pokoj_add" Text="{Binding Pokoj}" Grid.Column="1" Grid.Row="1" Margin="5,10,5,10"/>
-            <Label Content="Zadanie: " Grid.Row="2" Grid.Column="0" Margin="5"/>
-            <TextBox x:Name="nazwa_add" Grid.Row="2" FontSize="16" Grid.Column="1" Margin="5" Text="{Binding Nazwa}" TextWrapping="Wrap"/>
+            <Label Content="Pokój numer: " Grid.Row="1" Grid.Column="1" Margin="5" />
+            <Grid Grid.Row="2" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label Content="Numery:" Grid.Row="0"/>
+                <Label Content="1 -  Lobby:" Grid.Row="1"/>
+                <Label Content="2 -  Biuro 1:" Grid.Row="2"/>
+                <Label Content="3 -  Biuro 2:" Grid.Row="3"/>
+                <Label Content="4 -  Serwerownia 1:" Grid.Row="4"/>
+                <Label Content="5 -  Serwerownia 2:" Grid.Row="5"/>
+                <Label Content="6 -  Kuchnia:" Grid.Row="6"/>
+                <Label Content="7 -  Łazienka:" Grid.Row="7"/>
+                <Label Content="8 -  Sala Konferencyjna:" Grid.Row="8"/>
+                <Label Content="9 -  Magazyn:" Grid.Row="9"/>
+                <Label Content="10 -  Moja kanciapa:" Grid.Row="10"/>
+            </Grid>
+            <TextBox x:Name="pokoj_add" Text="{Binding NrPokoju}" KeyUp="Label_KeyPress" Grid.Column="2" Grid.Row="1" Margin="5,10,5,10"/>
+            <Label Content="Zadanie: " Grid.Row="2" Grid.Column="1" Margin="5"/>
+            <TextBox x:Name="nazwa_add" Grid.Row="2" FontSize="16" Grid.Column="2" Margin="5" Text="{Binding Nazwa}" TextWrapping="Wrap" Grid.RowSpan="2"/>
 
             <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
                 <Grid.RowDefinitions>
@@ -39,8 +66,6 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
-                <Button x:Name="btnPotwierdz" Grid.Row="0" Grid.ColumnSpan="3" Margin="4" MinWidth="120" HorizontalAlignment="Center" Content="Potwierdź zmianę" Click="BtnPotwierdz_Click"/>
 
             </Grid>
         </Grid>
@@ -63,11 +88,11 @@
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
-                            <GridViewColumn Header="Pokój" DisplayMemberBinding="{Binding Pokoj}" Width="150px"/>
+                            <GridViewColumn Header="Pokój" DisplayMemberBinding="{Binding NrPokoju}" Width="150px"/>
                             <GridViewColumn Header="Zadanie">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Nazwa}" TextWrapping="Wrap" Width="760px"/>
+                                        <TextBlock Text="{Binding Nazwa}" TextWrapping="Wrap" Width="800px"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

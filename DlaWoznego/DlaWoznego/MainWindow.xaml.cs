@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -19,34 +20,44 @@ namespace DlaWoznego
 {
     public partial class MainWindow : Window
     {
+        //ObservableCollection is used to hold a list of "Produkt" objects - Karteczek :3
         internal ObservableCollection<Produkt> ListaProduktow = new();
+
+        //This is a nullable object of the "Produkt" class, used to store a new product that will be added to the list
+        //Your favourite way to make setters and getters XD
         private Produkt? NowyProdukt { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            PrzygotujWiazanie();
+            PrzygotujWiazanie(); //method to prepare data binding
         }
         private void PrzygotujWiazanie()
         {
-            lstProdukty.ItemsSource = ListaProduktow;
+            lstProdukty.ItemsSource = ListaProduktow; //binding the listbox to the list of products
+
             CollectionView widok = (CollectionView)CollectionViewSource.GetDefaultView(lstProdukty.ItemsSource);
+
+            //sort items in the list by the "Pokoj" property in ascending order
             widok.SortDescriptions.Add(new SortDescription("Pokoj", ListSortDirection.Ascending));
+            //sort items in the list by the "Nazwa" property in ascending order
             widok.SortDescriptions.Add(new SortDescription("Nazwa", ListSortDirection.Ascending));
 
-            widok.Filter = FiltrUzytkownika;
+            widok.Filter = FiltrUzytkownika;//adding filter to the list
 
             this.lstProdukty.LostFocus += (s, e) => this.lstProdukty.SelectedItems.Clear();
         }
-        private bool FiltrUzytkownika(object item)
+        private bool FiltrUzytkownika(object item) //Filter method to filter the list of products
         {
-            if (String.IsNullOrEmpty(txtFilter.Text))
-                return true;
-            else
+            if (String.IsNullOrEmpty(txtFilter.Text)) //if the filter textbox is empty
+                return true; //return all items
+            else //otherwise return only items whose "Nazwa" property contains the text in the filter textbox
                 return (((Produkt)item).Nazwa.IndexOf(txtFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0);
         }
-        private void TxtFilter_TextChanged(object sender, TextChangedEventArgs e)
+
+        //Event handler for when the text in the filter textbox changes
+        private void TxtFilter_TextChanged(object sender, TextChangedEventArgs e) 
         {
-            CollectionViewSource.GetDefaultView(lstProdukty.ItemsSource).Refresh();
+            CollectionViewSource.GetDefaultView(lstProdukty.ItemsSource).Refresh(); //refresh the list to apply the filter
         }
 
         private void RemoveBtn2_Click(object sender, RoutedEventArgs e)
@@ -66,48 +77,20 @@ namespace DlaWoznego
                 }
             }
         }
-        /*
-         *  private async void notesCollection_SelectionChanged(object sender, SelectionChangedEventArgs e)
-            {
-                if (e.CurrentSelection.Count != 0)
-                {
-                    var note = (Models.Note)e.CurrentSelection[0];
-                    await Shell.Current.GoToAsync($"{nameof(NotePage)}?{nameof(NotePage.ItemId)}={note.Filename}");
-                    notesCollection.SelectedItem = null;
-                }
-            }
-         * */
+
         private void BtnDodaj_Click(object sender, RoutedEventArgs e)
         {
-            string[] pokoje = { "Lobby", "Biuro 1", "Biuro 2", "Serwerownia 1", "Serwerownia 2", "Kuchnia", "Łazienka", "Sala Konferencyjna", "Magazyn", "Moja kanciapa" };
-            bool same = false;
-            for (int i = 0; pokoje.Length > i; i++)
+            if (Int16.Parse(pokoj_add.Text) > 0 && Int16.Parse(pokoj_add.Text) < 11)
             {
-                if (pokoj_add.Text == pokoje[i])
-                {
-                    same = true;
-                }
-            }
-            if (same)
-            {
-                NowyProdukt = new Produkt(pokoj_add.Text, nazwa_add.Text);
+                NowyProdukt = new Produkt(Int16.Parse(pokoj_add.Text), "", nazwa_add.Text);
                 ListaProduktow.Add(NowyProdukt);
                 pokoj_add.Text = "";
                 nazwa_add.Text = "";
             }
             else
             {
-                MessageBox.Show("Wprowadź poprawną nazwę pokoju!\nPoprawne nazwy: Lobby, Biuro 1, Biuro 2, Serwerownia 1, Serwerownia 2, Kuchnia, Łazienka, Sala Konferencyjna, Magazyn, Moja kanciapa");
+                MessageBox.Show("Wprowadź poprawną nazwę pokoju!");
             }
-        }
-
-        private void BtnPotwierdz_Click(object sender, RoutedEventArgs e)
-        {
-            //if (czyNowyProdukt) 
-            //{ 
-            //    ListaProduktow.Add(nowyProdukt); 
-            //}
-            //this.DialogResult = true;
         }
 
         private void BtnUnselect_Click(object sender, RoutedEventArgs e)
@@ -116,6 +99,28 @@ namespace DlaWoznego
 
             pokoj_add.Text = "";
             nazwa_add.Text = "";
+        }
+
+        private void Label_KeyPress(object sender, KeyEventArgs e)
+        {
+            short x = 0;
+            if (Int16.TryParse(pokoj_add.Text, out x))
+            {
+                if (x > 0 && x < 11)
+                {
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Wprowadź poprawny numer pokoju!");
+                    pokoj_add.Text = "";
+                }
+            }
+            else
+            {
+                MessageBox.Show("Numer pokoju musi być liczbą!");
+                pokoj_add.Text = "";
+            }
         }
     }
 }
